@@ -30,6 +30,9 @@
     <ClCompile Include="..\..\Library\net_server.cpp">
       <Filter>Library</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Library\ring_buffer.cpp">
+      <Filter>Library</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -39,6 +42,21 @@
       <Filter>소스 파일</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Library\net_server.h">
+      <Filter>Library</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\ring_buffer.h">
+      <Filter>Library</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\session.h">
+      <Filter>Library</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\lock_free_stack.h">
+      <Filter>Library</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\lock_free_queue.h">
+      <Filter>Library</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\error.h">
       <Filter>Library</Filter>
     </ClInclude>
   </ItemGroup>

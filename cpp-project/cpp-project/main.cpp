@@ -8,7 +8,12 @@ int main() {
     {
         return false;
     }
-    if (echoServer.Start(L"127.0.0.1", 9000, 4) == false)
+
+    int maxSession = 5000;
+    const wchar_t* ipStr = L"127.0.0.1";
+    int port = 9000;
+    int workerThread = 4;
+    if (echoServer.Start(ipStr, port, workerThread, maxSession) == false)
     {
         echoServer.Release();
         return false;
