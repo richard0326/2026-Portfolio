@@ -18,14 +18,14 @@ class LockFreeQueue
 	};
 
 public:
-	LockFreeQueue(int size)
+	LockFreeQueue()
 	{
 		m_queueCount = 0;
-
 		m_pHead = new Top();
 		m_pTail = new Top();
 		
 		// dummy Node ¸¸µé±â
+		m_pHead->node = m_pTail->node = new Node();
 		m_pHead->node->pNext = nullptr;
 		m_pHead->nodeID = 1;
 		m_pTail->nodeID = 1;

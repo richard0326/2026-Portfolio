@@ -17,13 +17,14 @@ public:
 	bool Start(const wchar_t* ipWstr, int portNum, int workerCreateCnt, int maxSession);
 	void Stop();
 
+protected:
 	// accept 직후
 	virtual bool OnConnectionRequest(const wchar_t* ipWstr, int portNum) = 0;
 
 	// Accept 후 접속처리 완료 후 호출.
-	virtual void OnClientJoin(int SessionID, void* pObject) = 0;
+	virtual void OnClientJoin(int sessionID, void* pObject) = 0;
 	// Release 후 호출
-	virtual void OnClientLeave(int SessionID, void* pObject) = 0;
+	virtual void OnClientLeave(int sessionID, void* pObject) = 0;
 
 	// 패킷 수신 완료 후
 	virtual int OnRecv(int sessionID, void* pObject, std::shared_ptr<byte[]> byteArr) = 0;
@@ -39,16 +40,23 @@ private:
 
 	ErrorCode netWSARecvPacket(Session* pSession);  // IOCP 패킷을 읽어드리는 함수
 	ErrorCode netWSARecvPost(Session* pSession);	// WSA Recv를 호출하는 함수
-	ErrorCode netWSASendPacket(int SessionID, byte* byteArr);	// 패킷(byte 배열)을 보내는 함수
+	ErrorCode netWSASendPacket(int sessionID, byte* byteArr);	// 패킷(byte 배열)을 보내는 함수
 	ErrorCode netWSASendPost(Session* pSession);	// WSA Send를 호출하는 함수
-	void DisconnectSession(int SessionID);
+	void DisconnectSession(int sessionID);
 	void DisconnectSession(Session* pSession, bool isLock = false);
 
-	Session* AcquireLock(int SessionID);
+	Session* AcquireLock(int sessionID);
 	void ReleaseLock(Session* pSession);
 	void DecreaseIOCount(Session* pSession);
 
 	unsigned int GetPacketLen(byte* byteArr);
+	void InitSession(Session* pSession);
+public:
+	// 외부 호출 함수
+	bool SendPacket(int sessionID, byte* byteArr);
+	bool SetObject(int sessionID, void* pObject);
+	void* GetObject(int sessionID);
+
 private:
 	SOCKET		m_listenSocket;
 	sockaddr_in m_listenInfo;

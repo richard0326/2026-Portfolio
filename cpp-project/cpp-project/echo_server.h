@@ -17,9 +17,9 @@ public:
 	virtual bool OnConnectionRequest(const wchar_t* ipWstr, int portNum);
 
 	// Accept 후 접속처리 완료 후 호출.
-	virtual void OnClientJoin(int SessionID, void* pObject);
+	virtual void OnClientJoin(int sessionID, void* pObject);
 	// Release 후 호출
-	virtual void OnClientLeave(int SessionID, void* pObject);
+	virtual void OnClientLeave(int sessionID, void* pObject);
 
 	// 패킷 수신 완료 후
 	virtual int OnRecv(int sessionID, void* pObject, std::shared_ptr<byte[]> byteArr);

@@ -83,7 +83,10 @@ bool NetServer::Start(const wchar_t* ipWstr, int portNum, int workerCreateCnt, i
     m_sessionVec.clear();
     m_indexStack = new LockFreeStack<int>();
     for (int i = 0; i < m_maxSession; i++) {
-        m_sessionVec.push_back(new Session());
+        Session* pSession = new Session();
+        pSession->RecvQ = new RingBuffer();
+        pSession->SendQ = new LockFreeQueue<byte*>();
+        m_sessionVec.push_back(pSession);
         m_indexStack->Push(m_maxSession - i - 1); // 스택이니까 거꾸로 넣기
         m_sessionVec[i]->SessionID = i;
     }
@@ -169,6 +172,8 @@ void NetServer::Stop()
     {
         for (int i = 0; i < m_sessionVec.size(); i++)
         {
+            delete m_sessionVec[i]->SendQ;
+            delete m_sessionVec[i]->RecvQ;
             delete m_sessionVec[i];
         }
     }
@@ -406,9 +411,9 @@ ErrorCode NetServer::netWSARecvPost(Session* pSession)
     return RET_SUCCESS;
 }
 
-ErrorCode NetServer::netWSASendPacket(int SessionID, byte* byteArr)
+ErrorCode NetServer::netWSASendPacket(int sessionID, byte* byteArr)
 {
-    Session* pSession = AcquireLock(SessionID);
+    Session* pSession = AcquireLock(sessionID);
     if (pSession == nullptr)
     {
         return RET_SOCKET_ERROR;
@@ -490,9 +495,9 @@ ErrorCode NetServer::netWSASendPost(Session* pSession)
     return RET_SUCCESS;
 }
 
-void NetServer::DisconnectSession(int SessionID)
+void NetServer::DisconnectSession(int sessionID)
 {
-    Session* pSession = AcquireLock(SessionID);
+    Session* pSession = AcquireLock(sessionID);
     if (pSession == nullptr)
         return;
 
@@ -524,9 +529,9 @@ void NetServer::DisconnectSession(Session* pSession, bool isLock)
     ReleaseLock(pSession);
 }
 
-Session* NetServer::AcquireLock(int SessionID)
+Session* NetServer::AcquireLock(int sessionID)
 {
-    Session* pSession = m_sessionVec[SessionID];
+    Session* pSession = m_sessionVec[sessionID];
     if (1 == InterlockedIncrement16(&pSession->IOCount))
     {
         DecreaseIOCount(pSession);
@@ -554,4 +559,45 @@ unsigned int NetServer::GetPacketLen(byte* byteArr)
 {
     // 패킷의 제일 앞단 unsigned int 4byte를 길이로 고정
     return ((unsigned int*)byteArr)[0];
+}
+
+void NetServer::InitSession(Session* pSession)
+{
+    pSession->IOCount = 0;
+    pSession->IOSend = 0;
+    ZeroMemory(pSession->IpStr, 16);
+    pSession->ReleaseFlag = false;
+    pSession->ObjectPtr = nullptr;
+    pSession->IsShutdown = false;
+    pSession->usPort = 0;
+    pSession->Socket = 0;
+}
+
+bool NetServer::SendPacket(int sessionID, byte* byteArr)
+{
+    if (netWSASendPacket(sessionID, byteArr) != RET_SUCCESS)
+    {
+        return false;
+    }
+    return true;
+}
+
+bool NetServer::SetObject(int sessionID, void* pObject)
+{
+    Session* pSession = m_sessionVec[sessionID];
+    if (pSession == nullptr || pSession->ReleaseFlag) {
+        return false;
+    }
+    pSession->ObjectPtr = pObject;
+    return true;
+}
+
+void* NetServer::GetObject(int sessionID)
+{
+    Session* pSession = m_sessionVec[sessionID];
+    if (pSession == nullptr || pSession->ReleaseFlag) {
+        return nullptr;
+    }
+
+    return pSession->ObjectPtr;
 }
