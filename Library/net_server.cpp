@@ -86,6 +86,7 @@ bool NetServer::Start(const wchar_t* ipWstr, int portNum, int workerCreateCnt, i
         Session* pSession = new Session();
         pSession->RecvQ = new RingBuffer();
         pSession->SendQ = new LockFreeQueue<byte*>();
+        pSession->ReleasePacket = new LockFreeQueue<byte*>();
         m_sessionVec.push_back(pSession);
         m_indexStack->Push(m_maxSession - i - 1); // 스택이니까 거꾸로 넣기
         m_sessionVec[i]->SessionID = i;
@@ -172,6 +173,7 @@ void NetServer::Stop()
     {
         for (int i = 0; i < m_sessionVec.size(); i++)
         {
+            delete m_sessionVec[i]->ReleasePacket;
             delete m_sessionVec[i]->SendQ;
             delete m_sessionVec[i]->RecvQ;
             delete m_sessionVec[i];
@@ -226,6 +228,15 @@ unsigned __stdcall NetServer::netAcceptThread(void* pParameter)
         pSession->usPort = ntohs(clientaddr.sin_port);
         pSession->Socket = clientSock;
 
+        if (pThis->OnConnectionRequest(pSession->IpStr, pSession->usPort) == false)
+        {
+            // 블랙 유저인 경우
+            cout << "blacked user : IP " << pSession->IpStr << ", Port" << pSession->usPort << endl;
+            shutdown(clientSock, SD_BOTH);
+            closesocket(clientSock);
+            continue;
+        }
+
         // 소켓을 IOCP에 연결 (completion key에 conn 포인터)
         HANDLE h = CreateIoCompletionPort((HANDLE)clientSock, pThis->m_hIOCP, (ULONG_PTR)pSession, 0);
         if (!h) {
@@ -233,6 +244,8 @@ unsigned __stdcall NetServer::netAcceptThread(void* pParameter)
             pThis->DisconnectSession(pSession);
             continue;
         }
+
+        pThis->OnClientJoin(pSession->SessionID, pSession->ObjectPtr);
 
         ErrorCode error = pThis->netWSARecvPost(pSession);
         if (error != RET_SUCCESS)
@@ -294,6 +307,8 @@ unsigned __stdcall NetServer::netIOThread(void* pParameter)
                 {
                     pThis->DisconnectSession(pSession);
                 }
+
+                pThis->OnSend(pSession->SessionID, pSession->ObjectPtr, pSession->ReleasePacket);
             }
         }
 
@@ -469,6 +484,8 @@ ErrorCode NetServer::netWSASendPost(Session* pSession)
             wsaSendBuf[packetLoop].buf = (char*)byteArr;
             wsaSendBuf[packetLoop].len = sizeof(unsigned int) + GetPacketLen(byteArr); // 패킷 크기
             sendPacketCnt++;
+
+            pSession->ReleasePacket->Enqueue(byteArr);
         }
 
         // Send를 시도했지만, 보낼 패킷이 없는 경우
@@ -560,6 +577,12 @@ void NetServer::DecreaseIOCount(Session* pSession)
     {
         if (InterlockedCompareExchange((LONG*)&pSession->ReleaseFlag, true, false) == false)
         {
+            closesocket(pSession->Socket);
+            OnClientLeave(pSession->SessionID, pSession->ObjectPtr, pSession->ReleasePacket);
+            if (m_indexStack->Push(pSession->SessionID) == false)
+            {
+                cout << "stack push fail : " << pSession->SessionID << endl;
+            }
         }
     }
 }
@@ -601,7 +624,7 @@ bool NetServer::SetObject(int sessionID, void* pObject)
     return true;
 }
 
-void* NetServer::GetObject(int sessionID)
+void* NetServer::GetObjectPtr(int sessionID)
 {
     Session* pSession = m_sessionVec[sessionID];
     if (pSession == nullptr || pSession->ReleaseFlag) {

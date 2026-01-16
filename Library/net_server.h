@@ -3,6 +3,8 @@
 
 template <typename T>
 class LockFreeStack;
+template <typename T>
+class LockFreeQueue;
 class Session;
 class NetServer
 {
@@ -24,12 +26,12 @@ protected:
 	// Accept 후 접속처리 완료 후 호출.
 	virtual void OnClientJoin(int sessionID, void* pObject) = 0;
 	// Release 후 호출
-	virtual void OnClientLeave(int sessionID, void* pObject) = 0;
+	virtual void OnClientLeave(int sessionID, void* pObject, LockFreeQueue<byte*>* releasePacket) = 0;
 
 	// 패킷 수신 완료 후
 	virtual int OnRecv(int sessionID, void* pObject, std::shared_ptr<byte[]> byteArr) = 0;
 	// 패킷 송신 완료 후
-	virtual int OnSend(int sessionID, void* pObject, byte* byteArr) = 0;
+	virtual int OnSend(int sessionID, void* pObject, LockFreeQueue<byte*>* releasePacket) = 0;
 
 	virtual void OnError(const wchar_t* ipWstr, int portNum, int sessionID, void* pObject, int errorCode, const wchar_t* errorMsg) = 0;
 
@@ -55,7 +57,7 @@ public:
 	// 외부 호출 함수
 	bool SendPacket(int sessionID, byte* byteArr);
 	bool SetObject(int sessionID, void* pObject);
-	void* GetObject(int sessionID);
+	void* GetObjectPtr(int sessionID);
 
 private:
 	SOCKET		m_listenSocket;

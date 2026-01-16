@@ -34,4 +34,5 @@ public:
 	short IOCount = 0;
 
 	void* ObjectPtr;
+	LockFreeQueue<byte*>* ReleasePacket;
 };

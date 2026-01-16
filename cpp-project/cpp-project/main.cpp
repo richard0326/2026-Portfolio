@@ -1,10 +1,10 @@
 #include "stdafx.h"
 #include "net_server.h"
-#include "echo_server.h"
+#include "mmorpg_server.h"
 
 int main() {
-    EchoServer echoServer;
-    if (echoServer.Init() == false)
+    MmorpgServer mmorpgoServer;
+    if (mmorpgoServer.Init() == false)
     {
         return false;
     }
@@ -13,9 +13,9 @@ int main() {
     const wchar_t* ipStr = L"127.0.0.1";
     int port = 9000;
     int workerThread = 4;
-    if (echoServer.Start(ipStr, port, workerThread, maxSession) == false)
+    if (mmorpgoServer.Start(ipStr, port, workerThread, maxSession) == false)
     {
-        echoServer.Release();
+        mmorpgoServer.Release();
         return false;
     }
     
@@ -33,8 +33,8 @@ int main() {
         }
     }
 
-    echoServer.Stop();
+    mmorpgoServer.Stop();
 
-    echoServer.Release();
+    mmorpgoServer.Release();
     return 0;
 }
