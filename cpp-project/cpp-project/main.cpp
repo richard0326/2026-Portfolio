@@ -19,6 +19,20 @@ int main() {
         return false;
     }
     
+    bool g_running = true;
+    while (g_running)
+    {
+        char ch;
+        std::cin >> ch;
+
+        if (std::tolower(ch) == 'q')
+        {
+            std::cout << "[INFO] Shutdown signal received.\n";
+            g_running = false;
+            break;
+        }
+    }
+
     echoServer.Stop();
 
     echoServer.Release();

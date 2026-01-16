@@ -220,6 +220,7 @@ unsigned __stdcall NetServer::netAcceptThread(void* pParameter)
         }
 
         Session* pSession = pThis->m_sessionVec[sessionId];
+        pThis->InitSession(pSession);
 
         InetNtop(AF_INET, &clientaddr.sin_addr, pSession->IpStr, 16);
         pSession->usPort = ntohs(clientaddr.sin_port);
@@ -310,27 +311,26 @@ ErrorCode NetServer::netWSARecvPacket(Session* pSession)
         int UsedSize = pSession->RecvQ->GetUseSize();
         if (UsedSize < headerSize)
         {
+            cout << "Has No Header" << endl;
             break;
-        }
-
-        if (headerSize == 0)
-        {
-            return RET_SOCKET_ERROR;
         }
 
         int peekSize = pSession->RecvQ->Peek((char*)&payloadSize, headerSize);
         if (peekSize != headerSize)
         {
+            cout << "Fail to get header" << endl;
             return RET_SOCKET_ERROR;
         }
 
         if (UsedSize < headerSize + payloadSize)
         {
+            cout << "Not Enough Payload" << endl;
             break;
         }
 
         if (pSession->RecvQ->MoveFront(headerSize) == false)
         {
+            cout << "RecvQ remove payload" << endl;
             return RET_SOCKET_ERROR;
         }
 
@@ -339,12 +339,14 @@ ErrorCode NetServer::netWSARecvPacket(Session* pSession)
         int deqSize = pSession->RecvQ->Dequeue(((char*)byteArr.get()) + headerSize, payloadSize);
         if (deqSize != payloadSize)
         {
+            cout << "RecvQ remove payload" << endl;
             return RET_SOCKET_ERROR;
         }
         
         ErrorCode retOnRecv = (ErrorCode)OnRecv(pSession->SessionID, pSession->ObjectPtr, byteArr);
         if (retOnRecv != RET_SUCCESS)
         {
+            cout << "OnRecv error" << endl;
             return retOnRecv;
         }
     }
@@ -352,6 +354,7 @@ ErrorCode NetServer::netWSARecvPacket(Session* pSession)
     ErrorCode retRecvPost = netWSARecvPost(pSession);
     if (retRecvPost != RET_SUCCESS)
     {
+        cout << "netWSARecvPost error" << endl;
         return retRecvPost;
     }
 
@@ -416,11 +419,13 @@ ErrorCode NetServer::netWSASendPacket(int sessionID, byte* byteArr)
     Session* pSession = AcquireLock(sessionID);
     if (pSession == nullptr)
     {
+        cout << "Fail to get Session" << endl;
         return RET_SOCKET_ERROR;
     }
 
     if (false == pSession->SendQ->Enqueue(byteArr))
     {
+        cout << "SendQ Enqueue Fail" << endl;
         ReleaseLock(pSession);
         return RET_SOCKET_ERROR;
     }
@@ -428,6 +433,7 @@ ErrorCode NetServer::netWSASendPacket(int sessionID, byte* byteArr)
     ErrorCode retSendPost = netWSASendPost(pSession);
     if (retSendPost != RET_SUCCESS)
     {
+        cout << "netWSASendPost Fail" << endl;
         ReleaseLock(pSession);
         return retSendPost;
     }
@@ -440,6 +446,7 @@ ErrorCode NetServer::netWSASendPost(Session* pSession)
 {
     if (pSession->SendQ->GetSize() == 0)
     {
+        cout << "Nothing to send" << endl;
         return RET_SUCCESS;
     }
 
@@ -460,13 +467,14 @@ ErrorCode NetServer::netWSASendPost(Session* pSession)
                 break;
 
             wsaSendBuf[packetLoop].buf = (char*)byteArr;
-            wsaSendBuf[packetLoop].len = GetPacketLen(byteArr);
+            wsaSendBuf[packetLoop].len = sizeof(unsigned int) + GetPacketLen(byteArr); // 패킷 크기
             sendPacketCnt++;
         }
 
         // Send를 시도했지만, 보낼 패킷이 없는 경우
         if (sendPacketCnt == 0)
         {
+            cout << "No Packet to send" << endl;
             InterlockedExchange8((char*)&pSession->IOSend, 0);
             return RET_SUCCESS;
         }
@@ -521,12 +529,13 @@ void NetServer::DisconnectSession(Session* pSession, bool isLock)
         int WSAError = WSAGetLastError();
         if (WSAError != ERROR_NOT_FOUND)
         {
-            cout << "Disconnect1() Error " << WSAError << endl;
+            cout << "Disconnect() Error " << WSAError << endl;
         }
     }
     shutdown(pSession->Socket, SD_BOTH);
 
     ReleaseLock(pSession);
+    cout << "Disconnect Session " << pSession->SessionID << endl;
 }
 
 Session* NetServer::AcquireLock(int sessionID)
@@ -563,7 +572,7 @@ unsigned int NetServer::GetPacketLen(byte* byteArr)
 
 void NetServer::InitSession(Session* pSession)
 {
-    pSession->IOCount = 0;
+    pSession->IOCount = 1;
     pSession->IOSend = 0;
     ZeroMemory(pSession->IpStr, 16);
     pSession->ReleaseFlag = false;

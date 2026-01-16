@@ -49,20 +49,39 @@ int main(int argc, char** argv) {
         if (line == "quit") break;
 
         // send
-        int sent = send(s, line.data(), (int)line.size(), 0);
+        char buf[2048];
+        unsigned int len = line.size();
+        memcpy(buf, &len, sizeof(len));
+        memcpy(buf + sizeof(len), line.data(), len);
+        int sent = send(s, buf, (int)sizeof(len) + len, 0);
         if (sent <= 0) {
             std::cerr << "send failed\n";
             break;
         }
 
-        // recv echo (단순화: 한 번에 받는다고 가정. 큰 데이터면 loop 필요)
-        char buf[2048];
-        int recvd = recv(s, buf, sizeof(buf) - 1, 0);
-        if (recvd <= 0) {
-            std::cerr << "recv failed\n";
+        ZeroMemory(buf, sizeof(buf));
+        // recv length (4 bytes)
+        unsigned int recvLen = 0;
+        int recvd = recv(s, reinterpret_cast<char*>(&recvLen), sizeof(recvLen), 0);
+        if (recvd != sizeof(recvLen)) {
+            std::cerr << "recv length failed\n";
             break;
         }
-        buf[recvd] = '\0';
+
+        // (선택) 길이 방어
+        if (recvLen >= sizeof(buf)) {
+            std::cerr << "payload too large\n";
+            break;
+        }
+
+        // recv payload
+        recvd = recv(s, buf, (int)recvLen, 0);
+        if (recvd != (int)recvLen) {
+            std::cerr << "recv payload failed\n";
+            break;
+        }
+
+        buf[recvLen] = '\0';
         std::cout << "echo: " << buf << "\n";
     }
 
