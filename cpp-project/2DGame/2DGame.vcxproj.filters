@@ -1,0 +1,226 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="소스 파일">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="헤더 파일">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="리소스 파일">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="2DGame">
+      <UniqueIdentifier>{900c9c55-9eb4-4133-b8c8-d2745bc64ff7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2DGame\Global">
+      <UniqueIdentifier>{06d5532c-dff1-492c-b973-8d129e97cfd3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2DGame\Library">
+      <UniqueIdentifier>{b9efacf3-f0e1-46d3-afc2-7682ae8cac2a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2DGame\Manager">
+      <UniqueIdentifier>{b0d8011b-230f-44cb-bc8a-208806b971b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2DGame\Object">
+      <UniqueIdentifier>{c67b34cb-be64-4889-9d2a-33156e51758e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2DGame\RenderObject">
+      <UniqueIdentifier>{84d27693-f076-4033-adb6-e4be72714934}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2DGame\Util">
+      <UniqueIdentifier>{cf192182-08f1-48bd-9291-c569db54899c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="framework.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="2DGame.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="ScreenDib.h">
+      <Filter>2DGame\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation.h">
+      <Filter>2DGame\RenderObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Sprite.h">
+      <Filter>2DGame\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseObject.h">
+      <Filter>2DGame\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="EffectObject.h">
+      <Filter>2DGame\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerObject.h">
+      <Filter>2DGame\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderMgr.h">
+      <Filter>2DGame\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="GameMgr.h">
+      <Filter>2DGame\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkMgr.h">
+      <Filter>2DGame\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectMgr.h">
+      <Filter>2DGame\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceMgr.h">
+      <Filter>2DGame\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="define.h">
+      <Filter>2DGame\Global</Filter>
+    </ClInclude>
+    <ClInclude Include="MessagePacking.h">
+      <Filter>2DGame\Global</Filter>
+    </ClInclude>
+    <ClInclude Include="PacketStruct.h">
+      <Filter>2DGame\Global</Filter>
+    </ClInclude>
+    <ClInclude Include="PacketProc.h">
+      <Filter>2DGame\Global</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>2DGame\Global</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\FPSTimer.h">
+      <Filter>2DGame\Library</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\List.h">
+      <Filter>2DGame\Library</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\Parser.h">
+      <Filter>2DGame\Library</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\Profiler.h">
+      <Filter>2DGame\Library</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\Queue.h">
+      <Filter>2DGame\Library</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\Singleton.h">
+      <Filter>2DGame\Library</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\SerializeBuffer.h">
+      <Filter>2DGame\Global</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\ObjectPool.h">
+      <Filter>2DGame\Library</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\MemoryAllocMgr.h">
+      <Filter>2DGame\Library</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\RingBuffer.h">
+      <Filter>2DGame\Library</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\LockFreeTlsPoolA.h">
+      <Filter>2DGame\Library</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\LockFreePool.h">
+      <Filter>2DGame\Library</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\Log.h">
+      <Filter>2DGame\Library</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\Synchronized.h">
+      <Filter>2DGame\Library</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="2DGame.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="ScreenDib.cpp">
+      <Filter>2DGame\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation.cpp">
+      <Filter>2DGame\RenderObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Sprite.cpp">
+      <Filter>2DGame\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="EffectObject.cpp">
+      <Filter>2DGame\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerObject.cpp">
+      <Filter>2DGame\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderMgr.cpp">
+      <Filter>2DGame\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="GameMgr.cpp">
+      <Filter>2DGame\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkMgr.cpp">
+      <Filter>2DGame\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectMgr.cpp">
+      <Filter>2DGame\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceMgr.cpp">
+      <Filter>2DGame\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="MessagePacking.cpp">
+      <Filter>2DGame\Global</Filter>
+    </ClCompile>
+    <ClCompile Include="PacketProc.cpp">
+      <Filter>2DGame\Global</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>2DGame\Global</Filter>
+    </ClCompile>
+    <ClCompile Include="Lib\FPSTimer.cpp">
+      <Filter>2DGame\Library</Filter>
+    </ClCompile>
+    <ClCompile Include="Lib\Parser.cpp">
+      <Filter>2DGame\Library</Filter>
+    </ClCompile>
+    <ClCompile Include="Lib\Profiler.cpp">
+      <Filter>2DGame\Library</Filter>
+    </ClCompile>
+    <ClCompile Include="Lib\SerializeBuffer.cpp">
+      <Filter>2DGame\Global</Filter>
+    </ClCompile>
+    <ClCompile Include="Lib\ObjectPool.cpp">
+      <Filter>2DGame\Library</Filter>
+    </ClCompile>
+    <ClCompile Include="Lib\MemoryAllocMgr.cpp">
+      <Filter>2DGame\Library</Filter>
+    </ClCompile>
+    <ClCompile Include="Lib\RingBuffer.cpp">
+      <Filter>2DGame\Library</Filter>
+    </ClCompile>
+    <ClCompile Include="Lib\Log.cpp">
+      <Filter>2DGame\Library</Filter>
+    </ClCompile>
+    <ClCompile Include="Lib\Synchronized.cpp">
+      <Filter>2DGame\Library</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="2DGame.rc">
+      <Filter>리소스 파일</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="small.ico">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="2DGame.ico">
+      <Filter>리소스 파일</Filter>
+    </Image>
+  </ItemGroup>
+</Project>

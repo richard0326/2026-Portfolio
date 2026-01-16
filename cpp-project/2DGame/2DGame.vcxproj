@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{c88d0f90-b530-40f1-8180-8c12159f939e}</ProjectGuid>
-    <RootNamespace>cppproject</RootNamespace>
+    <ProjectGuid>{5cd16988-9c6e-4a3b-b5ec-146279714513}</ProjectGuid>
+    <RootNamespace>My2DGame</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -70,18 +70,15 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>C:\Users\USER\Documents\GitHub\2026-Portfolio\Library;$(IncludePath)</IncludePath>
-  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
@@ -91,13 +88,11 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <OptimizeReferences>true</OptimizeReferences>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
@@ -105,12 +100,12 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
@@ -120,38 +115,83 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <OptimizeReferences>true</OptimizeReferences>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Library\net_server.cpp" />
-    <ClCompile Include="..\..\Library\ring_buffer.cpp" />
-    <ClCompile Include="echo_server.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="mmorpg_server.cpp" />
-    <ClCompile Include="player.cpp" />
+    <ClInclude Include="2DGame.h" />
+    <ClInclude Include="Animation.h" />
+    <ClInclude Include="BaseObject.h" />
+    <ClInclude Include="define.h" />
+    <ClInclude Include="EffectObject.h" />
+    <ClInclude Include="framework.h" />
+    <ClInclude Include="GameMgr.h" />
+    <ClInclude Include="Lib\FPSTimer.h" />
+    <ClInclude Include="Lib\List.h" />
+    <ClInclude Include="Lib\LockFreePool.h" />
+    <ClInclude Include="Lib\LockFreeTlsPoolA.h" />
+    <ClInclude Include="Lib\Log.h" />
+    <ClInclude Include="Lib\MemoryAllocMgr.h" />
+    <ClInclude Include="Lib\ObjectPool.h" />
+    <ClInclude Include="Lib\Parser.h" />
+    <ClInclude Include="Lib\Profiler.h" />
+    <ClInclude Include="Lib\Queue.h" />
+    <ClInclude Include="Lib\RingBuffer.h" />
+    <ClInclude Include="Lib\SerializeBuffer.h" />
+    <ClInclude Include="Lib\Singleton.h" />
+    <ClInclude Include="Lib\Synchronized.h" />
+    <ClInclude Include="MessagePacking.h" />
+    <ClInclude Include="NetworkMgr.h" />
+    <ClInclude Include="ObjectMgr.h" />
+    <ClInclude Include="PacketProc.h" />
+    <ClInclude Include="PacketStruct.h" />
+    <ClInclude Include="PlayerObject.h" />
+    <ClInclude Include="RenderMgr.h" />
+    <ClInclude Include="Resource.h" />
+    <ClInclude Include="ResourceMgr.h" />
+    <ClInclude Include="ScreenDib.h" />
+    <ClInclude Include="Sprite.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="targetver.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="2DGame.cpp" />
+    <ClCompile Include="Animation.cpp" />
+    <ClCompile Include="EffectObject.cpp" />
+    <ClCompile Include="GameMgr.cpp" />
+    <ClCompile Include="Lib\FPSTimer.cpp" />
+    <ClCompile Include="Lib\Log.cpp" />
+    <ClCompile Include="Lib\MemoryAllocMgr.cpp" />
+    <ClCompile Include="Lib\ObjectPool.cpp" />
+    <ClCompile Include="Lib\Parser.cpp" />
+    <ClCompile Include="Lib\Profiler.cpp" />
+    <ClCompile Include="Lib\RingBuffer.cpp" />
+    <ClCompile Include="Lib\SerializeBuffer.cpp" />
+    <ClCompile Include="Lib\Synchronized.cpp" />
+    <ClCompile Include="MessagePacking.cpp" />
+    <ClCompile Include="NetworkMgr.cpp" />
+    <ClCompile Include="ObjectMgr.cpp" />
+    <ClCompile Include="PacketProc.cpp" />
+    <ClCompile Include="PlayerObject.cpp" />
+    <ClCompile Include="RenderMgr.cpp" />
+    <ClCompile Include="ResourceMgr.cpp" />
+    <ClCompile Include="ScreenDib.cpp" />
+    <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Library\error.h" />
-    <ClInclude Include="..\..\Library\lock_free_queue.h" />
-    <ClInclude Include="..\..\Library\lock_free_stack.h" />
-    <ClInclude Include="..\..\Library\net_server.h" />
-    <ClInclude Include="..\..\Library\ring_buffer.h" />
-    <ClInclude Include="..\..\Library\session.h" />
-    <ClInclude Include="echo_server.h" />
-    <ClInclude Include="mmorpg_server.h" />
-    <ClInclude Include="player.h" />
-    <ClInclude Include="stdafx.h" />
+    <ResourceCompile Include="2DGame.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="2DGame.ico" />
+    <Image Include="small.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

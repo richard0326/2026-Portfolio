@@ -36,6 +36,9 @@
     <ClCompile Include="player.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="mmorpg_server.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -63,6 +66,9 @@
       <Filter>Library</Filter>
     </ClInclude>
     <ClInclude Include="player.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="mmorpg_server.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
   </ItemGroup>
