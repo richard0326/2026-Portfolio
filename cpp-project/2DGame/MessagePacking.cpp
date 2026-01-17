@@ -6,7 +6,7 @@
  * 클라에서 보낼 데이터를 포장하는 곳. 메시지를 패킹하는 함수
  */
 
-void mpMoveStart(CSerializeBuffer* pSerializeBuffer, char dir, unsigned short x, unsigned short y)
+void mpMoveStart(CSerializeBuffer* pSerializeBuffer, char dir, short x, short y)
 {
 	BYTE byCode = 0x89;
 	BYTE bySize = sizeof(dir) + sizeof(x) + sizeof(y);
@@ -14,7 +14,7 @@ void mpMoveStart(CSerializeBuffer* pSerializeBuffer, char dir, unsigned short x,
 	*pSerializeBuffer << byCode << bySize << byType << dir << x << y;
 }
 
-void mpMoveStop(CSerializeBuffer* pSerializeBuffer, char dir, unsigned short x, unsigned short y)
+void mpMoveStop(CSerializeBuffer* pSerializeBuffer, char dir, short x, short y)
 {
 	BYTE byCode = 0x89;
 	BYTE bySize = sizeof(dir) + sizeof(x) + sizeof(y);
@@ -22,7 +22,7 @@ void mpMoveStop(CSerializeBuffer* pSerializeBuffer, char dir, unsigned short x, 
 	*pSerializeBuffer << byCode << bySize << byType << dir << x << y;
 }
 
-void mpAttack1(CSerializeBuffer* pSerializeBuffer, char dir, unsigned short x, unsigned short y)
+void mpAttack1(CSerializeBuffer* pSerializeBuffer, char dir, short x, short y)
 {
 	BYTE byCode = 0x89;
 	BYTE bySize = sizeof(dir) + sizeof(x) + sizeof(y);
@@ -30,7 +30,7 @@ void mpAttack1(CSerializeBuffer* pSerializeBuffer, char dir, unsigned short x, u
 	*pSerializeBuffer << byCode << bySize << byType << dir << x << y;
 }
 
-void mpAttack2(CSerializeBuffer* pSerializeBuffer, char dir, unsigned short x, unsigned short y)
+void mpAttack2(CSerializeBuffer* pSerializeBuffer, char dir, short x, short y)
 {
 	BYTE byCode = 0x89;
 	BYTE bySize = sizeof(dir) + sizeof(x) + sizeof(y);
@@ -38,7 +38,7 @@ void mpAttack2(CSerializeBuffer* pSerializeBuffer, char dir, unsigned short x, u
 	*pSerializeBuffer << byCode << bySize << byType << dir << x << y;
 }
 
-void mpAttack3(CSerializeBuffer* pSerializeBuffer, char dir, unsigned short x, unsigned short y)
+void mpAttack3(CSerializeBuffer* pSerializeBuffer, char dir, short x, short y)
 {
 	BYTE byCode = 0x89;
 	BYTE bySize = sizeof(dir) + sizeof(x) + sizeof(y);
@@ -46,12 +46,12 @@ void mpAttack3(CSerializeBuffer* pSerializeBuffer, char dir, unsigned short x, u
 	*pSerializeBuffer << byCode << bySize << byType << dir << x << y;
 }
 
-void mpEcho(CSerializeBuffer* pSerializeBuffer, char dir, unsigned short x, unsigned short y)
+void mpEcho(CSerializeBuffer* pSerializeBuffer, char dir, short x, short y)
 {
 	BYTE byCode = 0x89;
-	BYTE bySize = sizeof(unsigned int);
+	BYTE bySize = sizeof(int);
 	BYTE byType = dfPACKET_CS_ECHO;
 
-	unsigned int millisec = GetTickCount();
+	int millisec = GetTickCount();
 	*pSerializeBuffer << byCode << bySize << byType << millisec;
 }

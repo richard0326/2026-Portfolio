@@ -216,9 +216,9 @@ void CNetworkMgr::CloseEvent()
 	closesocket(m_clientSock);
 }
 
-void CNetworkMgr::PacketProc(BYTE byPacketType, CSerializeBuffer* pSerializeBuffer)
+void CNetworkMgr::PacketProc(int packetType, CSerializeBuffer* pSerializeBuffer)
 {
-	switch (byPacketType)
+	switch (packetType)
 	{
 	case dfPACKET_SC_CREATE_MY_CHARACTER:
 		netPacketProc_CreateMyCharacter(pSerializeBuffer);

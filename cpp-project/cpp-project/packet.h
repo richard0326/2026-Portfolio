@@ -1,10 +1,18 @@
 #pragma once
 
-struct stPacket_Header {
-	unsigned int length;
-	int type;			// 패킷타입.
-};
 
+//---------------------------------------------------------------
+// 패킷헤더.
+//
+//---------------------------------------------------------------
+/*
+	BYTE	byCode;			// 패킷코드 0x89 고정.
+	BYTE	bySize;			// 패킷 사이즈.
+	BYTE	byType;			// 패킷타입.
+*/
+
+
+#define	dfPACKET_SC_CREATE_MY_CHARACTER			0
 //---------------------------------------------------------------
 // 클라이언트 자신의 캐릭터 할당		Server -> Client
 //
@@ -20,14 +28,9 @@ struct stPacket_Header {
 //	1	-	HP
 //
 //---------------------------------------------------------------
-//struct stPACKET_SC_CREATE_MY_CHARACTER : public stPacket_Header {
-//	int				ID;
-//	char			Direction; // ( LL / RR )
-//	unsigned short	X;
-//	unsigned short	Y;
-//	char			HP;
-//};
 
+
+#define	dfPACKET_SC_CREATE_OTHER_CHARACTER		1
 //---------------------------------------------------------------
 // 다른 클라이언트의 캐릭터 생성 패킷		Server -> Client
 //
@@ -42,14 +45,9 @@ struct stPacket_Header {
 //	1	-	HP
 //
 //---------------------------------------------------------------
-//struct stPACKET_SC_CREATE_OTHER_CHARACTER : public stPacket_Header {
-//	int				ID;
-//	char			Direction; // ( LL / RR )
-//	unsigned short	X;
-//	unsigned short	Y;
-//	char			HP;
-//};
 
+
+#define	dfPACKET_SC_DELETE_CHARACTER			2
 //---------------------------------------------------------------
 // 캐릭터 삭제 패킷						Server -> Client
 //
@@ -58,11 +56,10 @@ struct stPacket_Header {
 //	4	-	ID
 //
 //---------------------------------------------------------------
-//struct stPACKET_SC_DELETE_CHARACTER : public stPacket_Header {
-//	int				ID;
-//};
 
 
+
+#define	dfPACKET_CS_MOVE_START					10
 //---------------------------------------------------------------
 // 캐릭터 이동시작 패킷						Client -> Server
 //
@@ -77,12 +74,17 @@ struct stPacket_Header {
 //	2	-	Y
 //
 //---------------------------------------------------------------
-//struct stPACKET_CS_MOVE_START : public stPacket_Header {
-//	char			Direction; // ( 방향 디파인 값 8방향 )
-//	unsigned short	X;
-//	unsigned short	Y;
-//};
+#define dfPACKET_MOVE_DIR_LL					0
+#define dfPACKET_MOVE_DIR_LU					1
+#define dfPACKET_MOVE_DIR_UU					2
+#define dfPACKET_MOVE_DIR_RU					3
+#define dfPACKET_MOVE_DIR_RR					4
+#define dfPACKET_MOVE_DIR_RD					5
+#define dfPACKET_MOVE_DIR_DD					6
+#define dfPACKET_MOVE_DIR_LD					7
 
+
+#define	dfPACKET_SC_MOVE_START					11
 //---------------------------------------------------------------
 // 캐릭터 이동시작 패킷						Server -> Client
 //
@@ -98,13 +100,11 @@ struct stPacket_Header {
 //	2	-	Y
 //
 //---------------------------------------------------------------
-//struct stPACKET_SC_MOVE_START : public stPacket_Header {
-//	int				ID;
-//	char			Direction; // ( 방향 디파인 값 8방향 )
-//	unsigned short	X;
-//	unsigned short	Y;
-//};
 
+
+
+
+#define	dfPACKET_CS_MOVE_STOP					12
 //---------------------------------------------------------------
 // 캐릭터 이동중지 패킷						Client -> Server
 //
@@ -116,12 +116,9 @@ struct stPacket_Header {
 //	2	-	Y
 //
 //---------------------------------------------------------------
-//struct stPACKET_CS_MOVE_STOP : public stPacket_Header {
-//	char			Direction; // ( 방향 디파인 값. 좌/우만 사용 )
-//	unsigned short	X;
-//	unsigned short	Y;
-//};
 
+
+#define	dfPACKET_SC_MOVE_STOP					13
 //---------------------------------------------------------------
 // 캐릭터 이동중지 패킷						Server -> Client
 //
@@ -134,13 +131,10 @@ struct stPacket_Header {
 //	2	-	Y
 //
 //---------------------------------------------------------------
-//struct stPACKET_SC_MOVE_STOP : public stPacket_Header {
-//	int				ID;
-//	char			Direction; // ( 방향 디파인 값. 좌/우만 사용 )
-//	unsigned short	X;
-//	unsigned short	Y;
-//};
 
+
+
+#define	dfPACKET_CS_ATTACK1						20
 //---------------------------------------------------------------
 // 캐릭터 공격 패킷							Client -> Server
 //
@@ -154,12 +148,8 @@ struct stPacket_Header {
 //	2	-	Y	
 //
 //---------------------------------------------------------------
-//struct stPACKET_CS_ATTACK1 : public stPacket_Header {
-//	char			Direction; // ( 방향 디파인 값. 좌/우만 사용 )
-//	unsigned short	X;
-//	unsigned short	Y;
-//};
 
+#define	dfPACKET_SC_ATTACK1						21
 //---------------------------------------------------------------
 // 캐릭터 공격 패킷							Server -> Client
 //
@@ -172,13 +162,10 @@ struct stPacket_Header {
 //	2	-	Y
 //
 //---------------------------------------------------------------
-//struct stPACKET_SC_ATTACK1 : public stPacket_Header {
-//	int				ID;
-//	char			Direction; // ( 방향 디파인 값. 좌/우만 사용 )
-//	unsigned short	X;
-//	unsigned short	Y;
-//};
 
+
+
+#define	dfPACKET_CS_ATTACK2						22
 //---------------------------------------------------------------
 // 캐릭터 공격 패킷							Client -> Server
 //
@@ -192,12 +179,8 @@ struct stPacket_Header {
 //	2	-	Y
 //
 //---------------------------------------------------------------
-//struct stPACKET_CS_ATTACK2 : public stPacket_Header {
-//	char			Direction; // ( 방향 디파인 값. 좌/우만 사용 )
-//	unsigned short	X;
-//	unsigned short	Y;
-//};
 
+#define	dfPACKET_SC_ATTACK2						23
 //---------------------------------------------------------------
 // 캐릭터 공격 패킷							Server -> Client
 //
@@ -210,13 +193,8 @@ struct stPacket_Header {
 //	2	-	Y
 //
 //---------------------------------------------------------------
-//struct stPACKET_SC_ATTACK2 : public stPacket_Header {
-//	int				ID;
-//	char			Direction; // ( 방향 디파인 값. 좌/우만 사용 )
-//	unsigned short	X;
-//	unsigned short	Y;
-//};
 
+#define	dfPACKET_CS_ATTACK3						24
 //---------------------------------------------------------------
 // 캐릭터 공격 패킷							Client -> Server
 //
@@ -230,12 +208,8 @@ struct stPacket_Header {
 //	2	-	Y
 //
 //---------------------------------------------------------------
-//struct stPACKET_CS_ATTACK3 : public stPacket_Header {
-//	char			Direction; // ( 방향 디파인 값. 좌/우만 사용 )
-//	unsigned short	X;
-//	unsigned short	Y;
-//};
 
+#define	dfPACKET_SC_ATTACK3						25
 //---------------------------------------------------------------
 // 캐릭터 공격 패킷							Server -> Client
 //
@@ -248,13 +222,8 @@ struct stPacket_Header {
 //	2	-	Y
 //
 //---------------------------------------------------------------
-//struct stPACKET_SC_ATTACK3 : public stPacket_Header {
-//	int				ID;
-//	char			Direction; // ( 방향 디파인 값. 좌/우만 사용 )
-//	unsigned short	X;
-//	unsigned short	Y;
-//};
 
+#define	dfPACKET_SC_DAMAGE						30
 //---------------------------------------------------------------
 // 캐릭터 데미지 패킷							Server -> Client
 //
@@ -265,8 +234,33 @@ struct stPacket_Header {
 //	1	-	DamageHP	( 피해자 HP )
 //
 //---------------------------------------------------------------
-//struct stPACKET_SC_DAMAGE : public stPacket_Header {
-//	int				AttackID;
-//	int				DamageID;
-//	char			DamageHP;
-//};
+
+
+#define	dfPACKET_SC_SYNC						251
+//---------------------------------------------------------------
+// 동기화를 위한 패킷					Server -> Client
+//
+// 서버로부터 동기화 패킷을 받으면 해당 캐릭터를 찾아서
+// 캐릭터 좌표를 보정해준다.
+//
+//	4	-	ID
+//	2	-	X
+//	2	-	Y
+//
+//---------------------------------------------------------------
+
+#define	dfPACKET_CS_ECHO						252
+//---------------------------------------------------------------
+// Echo 용 패킷					Client -> Server
+//
+//	4	-	Time
+//
+//---------------------------------------------------------------
+
+#define	dfPACKET_SC_ECHO						253
+//---------------------------------------------------------------
+// Echo 응답 패킷				Server -> Client
+//
+//	4	-	Time
+//
+//---------------------------------------------------------------

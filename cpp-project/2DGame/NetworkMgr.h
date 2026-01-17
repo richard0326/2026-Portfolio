@@ -22,7 +22,7 @@ public:
 	bool SendEvent();
 	void CloseEvent();
 
-	void PacketProc(BYTE byPacketType, CSerializeBuffer* pSerializeBuffer);
+	void PacketProc(int packetType, CSerializeBuffer* pSerializeBuffer);
 	bool SendPacket(char* pPacket, int iPacketSize);
 
 private:

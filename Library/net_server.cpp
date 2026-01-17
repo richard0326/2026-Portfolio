@@ -4,6 +4,8 @@
 #include "ring_buffer.h"
 #include "session.h"
 #include "net_server.h"
+#include <iostream>
+using namespace std;
 
 NetServer::NetServer() {
 

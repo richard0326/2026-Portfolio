@@ -17,6 +17,7 @@ MmorpgServer::~MmorpgServer()
 // 서버 시작할때
 bool MmorpgServer::Start(const wchar_t* ipWstr, int portNum, int workerCreateCnt, int maxSession)
 {
+	srand(time(0));
 	if (NetServer::Start(ipWstr, portNum, workerCreateCnt, maxSession) == false)
 	{
 		return false;
@@ -42,8 +43,8 @@ bool MmorpgServer::OnConnectionRequest(const wchar_t* ipWstr, int portNum)
 void MmorpgServer::OnClientJoin(int sessionID, void* pObject)
 {
 	cout << "OnClientJoin " << endl;
-	byte* pByte = new byte[10];
-	if (SendPacket(sessionID, pByte) == false)
+	//byte* pByte = mpCreateMyCharacter(rand() % 8, rand() % dfRANGE_MOVE_RIGHT, rand() % dfRANGE_MOVE_BOTTOM);
+	//if (SendPacket(sessionID, pByte) == false)
 	{
 
 	}

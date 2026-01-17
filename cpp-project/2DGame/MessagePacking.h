@@ -5,14 +5,14 @@
  */
 
 class CSerializeBuffer;
-void mpMoveStart(CSerializeBuffer* pSerializeBuffer, char dir, unsigned short x, unsigned short y);
+void mpMoveStart(CSerializeBuffer* pSerializeBuffer, char dir, short x, short y);
 
-void mpMoveStop(CSerializeBuffer* pSerializeBuffer, char dir, unsigned short x, unsigned short y);
+void mpMoveStop(CSerializeBuffer* pSerializeBuffer, char dir, short x, short y);
 
-void mpAttack1(CSerializeBuffer* pSerializeBuffer, char dir, unsigned short x, unsigned short y);
+void mpAttack1(CSerializeBuffer* pSerializeBuffer, char dir, short x, short y);
 
-void mpAttack2(CSerializeBuffer* pSerializeBuffer, char dir, unsigned short x, unsigned short y);
+void mpAttack2(CSerializeBuffer* pSerializeBuffer, char dir, short x, short y);
 
-void mpAttack3(CSerializeBuffer* pSerializeBuffer, char dir, unsigned short x, unsigned short y);
+void mpAttack3(CSerializeBuffer* pSerializeBuffer, char dir, short x, short y);
 
-void mpEcho(CSerializeBuffer* pSerializeBuffer, char dir, unsigned short x, unsigned short y);
+void mpEcho(CSerializeBuffer* pSerializeBuffer, char dir, short x, short y);

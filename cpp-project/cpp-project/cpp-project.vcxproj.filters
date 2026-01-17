@@ -16,6 +16,12 @@
     <Filter Include="Library">
       <UniqueIdentifier>{4921d8e4-ddaa-4ed5-ac1e-25e0424b8465}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Global">
+      <UniqueIdentifier>{bbe0e5ea-33f1-4ec4-8eef-bbd12abb08ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager">
+      <UniqueIdentifier>{416d89b5-afbd-419d-9237-ed43198180a3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -35,6 +41,15 @@
     </ClCompile>
     <ClCompile Include="mmorpg_server.cpp">
       <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="message_packing.cpp">
+      <Filter>Global</Filter>
+    </ClCompile>
+    <ClCompile Include="packet_proc.cpp">
+      <Filter>Global</Filter>
+    </ClCompile>
+    <ClCompile Include="define.h">
+      <Filter>Global</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -64,6 +79,15 @@
     </ClInclude>
     <ClInclude Include="mmorpg_server.h">
       <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="packet_proc.h">
+      <Filter>Global</Filter>
+    </ClInclude>
+    <ClInclude Include="message_packing.h">
+      <Filter>Global</Filter>
+    </ClInclude>
+    <ClInclude Include="packet.h">
+      <Filter>Global</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
