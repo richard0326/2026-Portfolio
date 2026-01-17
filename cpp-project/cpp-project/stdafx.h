@@ -2,11 +2,13 @@
 
 #define _WINSOCK_DEPRECATED_NO_WARNINGS
 #pragma comment(lib, "ws2_32.lib")
-#include <winsock2.h>
+#include <WinSock2.h>
 #include <WS2tcpip.h>
 
-#include <windows.h>
+#include <Windows.h>
 #include <iostream>
+#include <conio.h>
+#include <ctime>
 using namespace std;
 
 #include <vector>
@@ -14,4 +16,9 @@ using namespace std;
 #include <atomic>
 #include <memory>
 
+#include "define.h"
 #include "packet.h"
+#include "lock_free_queue.h"
+#include "lock_free_stack.h"
+#include "ring_buffer.h"
+#include "session.h"
