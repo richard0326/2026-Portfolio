@@ -2,7 +2,7 @@
 
 template <typename T>
 void WriteToBuffer(byte* buf, size_t& offset, const T& v);
-byte* mpCreateMyCharacter(char dir, short x, short y);
+byte* mpCreateMyCharacter(int sessionID, char dir, short x, short y, char hp);
 byte* mpCreateOtherCharacter(int sessionID, char dir, short x, short y, char hp);
 byte* mpDeleteCharacter(int sessionID);
 byte* mpMoveStart(int sessionID, char dir, short x, short y);

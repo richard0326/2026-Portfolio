@@ -4,15 +4,17 @@
  * 클라에서 보낼 데이터를 포장하는 곳. 메시지를 패킹하는 함수
  */
 
-class CSerializeBuffer;
-void mpMoveStart(CSerializeBuffer* pSerializeBuffer, char dir, short x, short y);
+template <typename T>
+void WriteToBuffer(char* buf, size_t& offset, const T& v);
 
-void mpMoveStop(CSerializeBuffer* pSerializeBuffer, char dir, short x, short y);
+int mpMoveStart(char* buf, char dir, short x, short y);
 
-void mpAttack1(CSerializeBuffer* pSerializeBuffer, char dir, short x, short y);
+int mpMoveStop(char* buf, char dir, short x, short y);
 
-void mpAttack2(CSerializeBuffer* pSerializeBuffer, char dir, short x, short y);
+int mpAttack1(char* buf, char dir, short x, short y);
 
-void mpAttack3(CSerializeBuffer* pSerializeBuffer, char dir, short x, short y);
+int mpAttack2(char* buf, char dir, short x, short y);
 
-void mpEcho(CSerializeBuffer* pSerializeBuffer, char dir, short x, short y);
+int mpAttack3(char* buf, char dir, short x, short y);
+
+int mpEcho(char* buf, char dir, short x, short y);

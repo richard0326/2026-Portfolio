@@ -1,57 +1,126 @@
 #include "stdafx.h"
 #include "MessagePacking.h"
-#include "Lib/SerializeBuffer.h"
 
 /**
  * 클라에서 보낼 데이터를 포장하는 곳. 메시지를 패킹하는 함수
  */
-
-void mpMoveStart(CSerializeBuffer* pSerializeBuffer, char dir, short x, short y)
+template <typename T>
+void WriteToBuffer(char* buf, size_t& offset, const T& v)
 {
-	BYTE byCode = 0x89;
-	BYTE bySize = sizeof(dir) + sizeof(x) + sizeof(y);
-	BYTE byType = dfPACKET_CS_MOVE_START;
-	*pSerializeBuffer << byCode << bySize << byType << dir << x << y;
+	std::memcpy(buf + offset, &v, sizeof(T));
+	offset += sizeof(T);
 }
 
-void mpMoveStop(CSerializeBuffer* pSerializeBuffer, char dir, short x, short y)
+int mpMoveStart(char* buf, char dir, short x, short y)
 {
-	BYTE byCode = 0x89;
-	BYTE bySize = sizeof(dir) + sizeof(x) + sizeof(y);
-	BYTE byType = dfPACKET_CS_MOVE_STOP;
-	*pSerializeBuffer << byCode << bySize << byType << dir << x << y;
+	size_t offset = 0;
+
+	int type = dfPACKET_CS_MOVE_START;
+	unsigned int len =
+		sizeof(type) +
+		sizeof(dir) +
+		sizeof(x) +
+		sizeof(y);
+
+	WriteToBuffer(buf, offset, len);
+	WriteToBuffer(buf, offset, type);
+	WriteToBuffer(buf, offset, dir);
+	WriteToBuffer(buf, offset, x);
+	WriteToBuffer(buf, offset, y);
+	return len + sizeof(len);
 }
 
-void mpAttack1(CSerializeBuffer* pSerializeBuffer, char dir, short x, short y)
+int mpMoveStop(char* buf, char dir, short x, short y)
 {
-	BYTE byCode = 0x89;
-	BYTE bySize = sizeof(dir) + sizeof(x) + sizeof(y);
-	BYTE byType = dfPACKET_CS_ATTACK1;
-	*pSerializeBuffer << byCode << bySize << byType << dir << x << y;
+	size_t offset = 0;
+
+	int type = dfPACKET_CS_MOVE_STOP;
+	unsigned int len =
+		sizeof(type) +
+		sizeof(dir) +
+		sizeof(x) +
+		sizeof(y);
+
+	WriteToBuffer(buf, offset, len);
+	WriteToBuffer(buf, offset, type);
+	WriteToBuffer(buf, offset, dir);
+	WriteToBuffer(buf, offset, x);
+	WriteToBuffer(buf, offset, y);
+	return len + sizeof(len);
 }
 
-void mpAttack2(CSerializeBuffer* pSerializeBuffer, char dir, short x, short y)
+int mpAttack1(char* buf, char dir, short x, short y)
 {
-	BYTE byCode = 0x89;
-	BYTE bySize = sizeof(dir) + sizeof(x) + sizeof(y);
-	BYTE byType = dfPACKET_CS_ATTACK2;
-	*pSerializeBuffer << byCode << bySize << byType << dir << x << y;
+	size_t offset = 0;
+
+	int type = dfPACKET_CS_ATTACK1;
+	unsigned int len =
+		sizeof(type) +
+		sizeof(dir) +
+		sizeof(x) +
+		sizeof(y);
+
+	WriteToBuffer(buf, offset, len);
+	WriteToBuffer(buf, offset, type);
+	WriteToBuffer(buf, offset, dir);
+	WriteToBuffer(buf, offset, x);
+	WriteToBuffer(buf, offset, y);
+	return len + sizeof(len);
 }
 
-void mpAttack3(CSerializeBuffer* pSerializeBuffer, char dir, short x, short y)
+int mpAttack2(char* buf, char dir, short x, short y)
 {
-	BYTE byCode = 0x89;
-	BYTE bySize = sizeof(dir) + sizeof(x) + sizeof(y);
-	BYTE byType = dfPACKET_CS_ATTACK3;
-	*pSerializeBuffer << byCode << bySize << byType << dir << x << y;
+	size_t offset = 0;
+
+	int type = dfPACKET_CS_ATTACK2;
+	unsigned int len =
+		sizeof(type) +
+		sizeof(dir) +
+		sizeof(x) +
+		sizeof(y);
+
+	WriteToBuffer(buf, offset, len);
+	WriteToBuffer(buf, offset, type);
+	WriteToBuffer(buf, offset, dir);
+	WriteToBuffer(buf, offset, x);
+	WriteToBuffer(buf, offset, y);
+	return len + sizeof(len);
 }
 
-void mpEcho(CSerializeBuffer* pSerializeBuffer, char dir, short x, short y)
+int mpAttack3(char* buf, char dir, short x, short y)
 {
-	BYTE byCode = 0x89;
-	BYTE bySize = sizeof(int);
-	BYTE byType = dfPACKET_CS_ECHO;
+	size_t offset = 0;
 
-	int millisec = GetTickCount();
-	*pSerializeBuffer << byCode << bySize << byType << millisec;
+	int type = dfPACKET_CS_ATTACK3;
+	unsigned int len =
+		sizeof(type) +
+		sizeof(dir) +
+		sizeof(x) +
+		sizeof(y);
+
+	WriteToBuffer(buf, offset, len);
+	WriteToBuffer(buf, offset, type);
+	WriteToBuffer(buf, offset, dir);
+	WriteToBuffer(buf, offset, x);
+	WriteToBuffer(buf, offset, y);
+	return len + sizeof(len);
+}
+
+int mpEcho(char* buf, char dir, short x, short y)
+{
+	size_t offset = 0;
+
+	int type = dfPACKET_CS_ECHO;
+	unsigned int len =
+		sizeof(type) +
+		sizeof(dir) +
+		sizeof(x) +
+		sizeof(y);
+
+	WriteToBuffer(buf, offset, len);
+	WriteToBuffer(buf, offset, type);
+	WriteToBuffer(buf, offset, dir);
+	WriteToBuffer(buf, offset, x);
+	WriteToBuffer(buf, offset, y);
+	return len + sizeof(len);
 }

@@ -8,15 +8,17 @@ void WriteToBuffer(byte* buf, size_t& offset, const T& v)
 	offset += sizeof(T);
 }
 
-byte* mpCreateMyCharacter(char dir, short x, short y)
+byte* mpCreateMyCharacter(int sessionID, char dir, short x, short y, char hp)
 {
 	int type = dfPACKET_SC_CREATE_MY_CHARACTER;
 
 	unsigned int len =
 		sizeof(int) + // type
+		sizeof(int) + // ID
 		sizeof(char) + // dir
 		sizeof(short) + // x
-		sizeof(short);  // y
+		sizeof(short) +  // y
+		sizeof(char); // hp
 
 	size_t PACKET_SIZE = sizeof(len) + len;
 	byte* buffer = new byte[PACKET_SIZE];
@@ -25,9 +27,11 @@ byte* mpCreateMyCharacter(char dir, short x, short y)
 	WriteToBuffer(buffer, offset, len);
 
 	WriteToBuffer(buffer, offset, type);
+	WriteToBuffer(buffer, offset, sessionID);
 	WriteToBuffer(buffer, offset, dir);
 	WriteToBuffer(buffer, offset, x);
 	WriteToBuffer(buffer, offset, y);
+	WriteToBuffer(buffer, offset, hp);
 
 	return buffer;
 }

@@ -48,9 +48,6 @@
     <ClCompile Include="packet_proc.cpp">
       <Filter>Global</Filter>
     </ClCompile>
-    <ClCompile Include="define.h">
-      <Filter>Global</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -80,13 +77,16 @@
     <ClInclude Include="mmorpg_server.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
-    <ClInclude Include="packet_proc.h">
-      <Filter>Global</Filter>
-    </ClInclude>
     <ClInclude Include="message_packing.h">
       <Filter>Global</Filter>
     </ClInclude>
     <ClInclude Include="packet.h">
+      <Filter>Global</Filter>
+    </ClInclude>
+    <ClInclude Include="define.h">
+      <Filter>Global</Filter>
+    </ClInclude>
+    <ClInclude Include="packet_proc.h">
       <Filter>Global</Filter>
     </ClInclude>
   </ItemGroup>

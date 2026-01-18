@@ -133,7 +133,6 @@
   <ItemGroup>
     <ClCompile Include="..\..\Library\net_server.cpp" />
     <ClCompile Include="..\..\Library\ring_buffer.cpp" />
-    <ClCompile Include="define.h" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="message_packing.cpp" />
     <ClCompile Include="mmorpg_server.cpp" />
@@ -150,6 +149,7 @@
     <ClInclude Include="..\..\Library\net_server.h" />
     <ClInclude Include="..\..\Library\ring_buffer.h" />
     <ClInclude Include="..\..\Library\session.h" />
+    <ClInclude Include="define.h" />
     <ClInclude Include="message_packing.h" />
     <ClInclude Include="mmorpg_server.h" />
     <ClInclude Include="packet.h" />

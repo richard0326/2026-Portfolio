@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "NetworkMgr.h"
 #include "Lib/RingBuffer.h"
-#include "Lib/SerializeBuffer.h"
 
 DECLARE_SINGLETON_IN_CPP(CNetworkMgr);
 
@@ -146,33 +145,39 @@ bool CNetworkMgr::RecvEvent()
 	// 한번 리시브하도 다음 메시지로 리시브해도 됨. 어차피 같음.
 
 	while (true) {
-		if (g_RecvQ.GetUseSize() < sizeof(stPacket_Header))
+		unsigned int len = 0;
+		int peek = g_RecvQ.GetUseSize();
+		if (peek < sizeof(len))
 			break;
 
-		stPacket_Header peekHeader;
-		int peekSize = g_RecvQ.Peek((char*)&peekHeader, sizeof(stPacket_Header));
+		int peekSize = g_RecvQ.Peek((char*)&len, sizeof(len));
 
-		if (g_RecvQ.GetUseSize() < sizeof(stPacket_Header) + peekHeader.length)
+		if (g_RecvQ.GetUseSize() < sizeof(len) + len)
 			break;
 
-		if(g_RecvQ.MoveFront(sizeof(stPacket_Header)) == false) {
+		if(g_RecvQ.MoveFront(sizeof(len)) == false) {
 			AddLog(L"Recv MoveFront Error \n");
 			return false;
 		}
-		
-		CSerializeBuffer sbuf;
-		int deqSize = g_RecvQ.Dequeue(sbuf.GetBufferPtr(), peekHeader.length);
-		if (deqSize != peekHeader.length) {
+
+		int type = -1;
+		peekSize = g_RecvQ.Peek((char*)&type, sizeof(int));
+		if (g_RecvQ.MoveFront(sizeof(int)) == false) {
+			AddLog(L"Recv MoveFront Error \n");
+			return false;
+		}
+
+		char buf[500];
+		int deqSize = g_RecvQ.Dequeue(buf, len);
+		if (deqSize != len - sizeof(int)) {
 			AddLog(L"deq size Error \n");
 			return false;
 		}
 
-		sbuf.MoveWritePos(deqSize);
-
 		try {
-			PacketProc(peekHeader.type, &sbuf);
+			PacketProc(type, buf);
 		}
-		catch (CSerializeBufException e)
+		catch (exception e)
 		{
 			AddLog((const wchar_t*)e.what());
 			return false;
@@ -216,42 +221,42 @@ void CNetworkMgr::CloseEvent()
 	closesocket(m_clientSock);
 }
 
-void CNetworkMgr::PacketProc(int packetType, CSerializeBuffer* pSerializeBuffer)
+void CNetworkMgr::PacketProc(int packetType, char* buf)
 {
 	switch (packetType)
 	{
 	case dfPACKET_SC_CREATE_MY_CHARACTER:
-		netPacketProc_CreateMyCharacter(pSerializeBuffer);
+		netPacketProc_CreateMyCharacter(buf);
 		break;
 	case dfPACKET_SC_CREATE_OTHER_CHARACTER:
-		netPacketProc_CreateOtherCharacter(pSerializeBuffer);
+		netPacketProc_CreateOtherCharacter(buf);
 		break;
 	case dfPACKET_SC_DELETE_CHARACTER:
-		netPacketProc_DeleteCharacter(pSerializeBuffer);
+		netPacketProc_DeleteCharacter(buf);
 		break;
 	case dfPACKET_SC_MOVE_START:
-		netPacketProc_MoveStart(pSerializeBuffer);
+		netPacketProc_MoveStart(buf);
 		break;
 	case dfPACKET_SC_MOVE_STOP:
-		netPacketProc_MoveStop(pSerializeBuffer);
+		netPacketProc_MoveStop(buf);
 		break;
 	case dfPACKET_SC_ATTACK1:
-		netPacketProc_Attack1(pSerializeBuffer);
+		netPacketProc_Attack1(buf);
 		break;
 	case dfPACKET_SC_ATTACK2:
-		netPacketProc_Attack2(pSerializeBuffer);
+		netPacketProc_Attack2(buf);
 		break;
 	case dfPACKET_SC_ATTACK3:
-		netPacketProc_Attack3(pSerializeBuffer);
+		netPacketProc_Attack3(buf);
 		break;
 	case dfPACKET_SC_DAMAGE:
-		netPacketProc_Damage(pSerializeBuffer);
+		netPacketProc_Damage(buf);
 		break;
 	case dfPACKET_SC_SYNC:
-		netPacketProc_Sync(pSerializeBuffer);
+		netPacketProc_Sync(buf);
 		break;
 	case dfPACKET_SC_ECHO:
-		netPacketProc_Echo(pSerializeBuffer);
+		netPacketProc_Echo(buf);
 		break;
 	}
 }

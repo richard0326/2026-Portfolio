@@ -35,7 +35,7 @@ void MmorpgServer::Stop()
 // accept Á÷ÈÄ
 bool MmorpgServer::OnConnectionRequest(const wchar_t* ipWstr, int portNum)
 {
-	cout << "OnConnectionRequest : IP  " << ipWstr << ", Port" << portNum << endl;
+	cout << "OnConnectionRequest : IP  " << ipWstr << ", Port " << portNum << endl;
 	return true;
 }
 
@@ -43,8 +43,8 @@ bool MmorpgServer::OnConnectionRequest(const wchar_t* ipWstr, int portNum)
 void MmorpgServer::OnClientJoin(int sessionID, void* pObject)
 {
 	cout << "OnClientJoin " << endl;
-	//byte* pByte = mpCreateMyCharacter(rand() % 8, rand() % dfRANGE_MOVE_RIGHT, rand() % dfRANGE_MOVE_BOTTOM);
-	//if (SendPacket(sessionID, pByte) == false)
+	byte* pByte = mpCreateMyCharacter(sessionID, 0, rand() % dfRANGE_MOVE_RIGHT, rand() % dfRANGE_MOVE_BOTTOM, 100);
+	if (SendPacket(sessionID, pByte) == false)
 	{
 
 	}

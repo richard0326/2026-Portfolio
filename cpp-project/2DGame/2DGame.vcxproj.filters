@@ -114,9 +114,6 @@
     <ClInclude Include="Lib\Singleton.h">
       <Filter>2DGame\Library</Filter>
     </ClInclude>
-    <ClInclude Include="Lib\SerializeBuffer.h">
-      <Filter>2DGame\Global</Filter>
-    </ClInclude>
     <ClInclude Include="Lib\ObjectPool.h">
       <Filter>2DGame\Library</Filter>
     </ClInclude>
@@ -190,9 +187,6 @@
     </ClCompile>
     <ClCompile Include="Lib\Profiler.cpp">
       <Filter>2DGame\Library</Filter>
-    </ClCompile>
-    <ClCompile Include="Lib\SerializeBuffer.cpp">
-      <Filter>2DGame\Global</Filter>
     </ClCompile>
     <ClCompile Include="Lib\ObjectPool.cpp">
       <Filter>2DGame\Library</Filter>

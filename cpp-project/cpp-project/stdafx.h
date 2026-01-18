@@ -22,3 +22,6 @@ using namespace std;
 #include "lock_free_stack.h"
 #include "ring_buffer.h"
 #include "session.h"
+
+#include "message_packing.h"
+#include "packet_proc.h"

@@ -5,7 +5,6 @@
 #include "Sprite.h"
 #include "ResourceMgr.h"
 #include "NetworkMgr.h"
-#include "Lib/SerializeBuffer.h"
 
 const int default_x_speed = 3;
 const int default_y_speed = 2;
@@ -238,8 +237,8 @@ void CPlayerObject::InputActionProc(DWORD actionInput)
 
 bool CPlayerObject::SendAction(DWORD byActionType)
 {
-	CSerializeBuffer sbuf;
-
+	char buf[500];
+	int len = 0;
 	switch (byActionType)
 	{
 	case dfACTION_MOVE_LL:
@@ -251,52 +250,52 @@ bool CPlayerObject::SendAction(DWORD byActionType)
 	case dfACTION_MOVE_DD:
 	case dfACTION_MOVE_LD:
 	{
-		mpMoveStart(&sbuf, byActionType, m_iCurX, m_iCurY);
+		len = mpMoveStart(buf, byActionType, m_iCurX, m_iCurY);
 	}
 	break;
 	case dfACTION_STAND:
 	{
 		if (m_bDirCur) {
-			mpMoveStop(&sbuf, dfPACKET_MOVE_DIR_RR, m_iCurX, m_iCurY);
+			len = mpMoveStop(buf, dfPACKET_MOVE_DIR_RR, m_iCurX, m_iCurY);
 		}
 		else {
-			mpMoveStop(&sbuf, dfPACKET_MOVE_DIR_LL, m_iCurX, m_iCurY);
+			len = mpMoveStop(buf, dfPACKET_MOVE_DIR_LL, m_iCurX, m_iCurY);
 		}
 	}
 	break;
 	case dfACTION_ATTACK1:
 	{
 		if (m_bDirCur) {
-			mpAttack1(&sbuf, dfPACKET_MOVE_DIR_RR, m_iCurX, m_iCurY);
+			len = mpAttack1(buf, dfPACKET_MOVE_DIR_RR, m_iCurX, m_iCurY);
 		}
 		else {
-			mpAttack1(&sbuf, dfPACKET_MOVE_DIR_LL, m_iCurX, m_iCurY);
+			len = mpAttack1(buf, dfPACKET_MOVE_DIR_LL, m_iCurX, m_iCurY);
 		}
 	}
 	break;
 	case dfACTION_ATTACK2:
 	{
 		if (m_bDirCur) {
-			mpAttack2(&sbuf, dfPACKET_MOVE_DIR_RR, m_iCurX, m_iCurY);
+			len = mpAttack2(buf, dfPACKET_MOVE_DIR_RR, m_iCurX, m_iCurY);
 		}
 		else {
-			mpAttack2(&sbuf, dfPACKET_MOVE_DIR_LL, m_iCurX, m_iCurY);
+			len = mpAttack2(buf, dfPACKET_MOVE_DIR_LL, m_iCurX, m_iCurY);
 		}
 	}
 	break;
 	case dfACTION_ATTACK3:
 	{
 		if (m_bDirCur) {
-			mpAttack3(&sbuf, dfPACKET_MOVE_DIR_RR, m_iCurX, m_iCurY);
+			len = mpAttack3(buf, dfPACKET_MOVE_DIR_RR, m_iCurX, m_iCurY);
 		}
 		else {
-			mpAttack3(&sbuf, dfPACKET_MOVE_DIR_LL, m_iCurX, m_iCurY);
+			len = mpAttack3(buf, dfPACKET_MOVE_DIR_LL, m_iCurX, m_iCurY);
 		}
 	}
 	break;
 	}
 
-	if (SINGLETON(CNetworkMgr)->SendPacket(sbuf.GetBufferPtr(), sbuf.GetDataSize()) == false)
+	if (SINGLETON(CNetworkMgr)->SendPacket(buf, len) == false)
 		return false;
 
 	return true;

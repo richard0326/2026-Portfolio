@@ -142,7 +142,6 @@
     <ClInclude Include="Lib\Profiler.h" />
     <ClInclude Include="Lib\Queue.h" />
     <ClInclude Include="Lib\RingBuffer.h" />
-    <ClInclude Include="Lib\SerializeBuffer.h" />
     <ClInclude Include="Lib\Singleton.h" />
     <ClInclude Include="Lib\Synchronized.h" />
     <ClInclude Include="MessagePacking.h" />
@@ -171,7 +170,6 @@
     <ClCompile Include="Lib\Parser.cpp" />
     <ClCompile Include="Lib\Profiler.cpp" />
     <ClCompile Include="Lib\RingBuffer.cpp" />
-    <ClCompile Include="Lib\SerializeBuffer.cpp" />
     <ClCompile Include="Lib\Synchronized.cpp" />
     <ClCompile Include="MessagePacking.cpp" />
     <ClCompile Include="NetworkMgr.cpp" />

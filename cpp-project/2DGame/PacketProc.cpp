@@ -4,19 +4,31 @@
 #include "ObjectMgr.h"
 #include "BaseObject.h"
 #include "PlayerObject.h"
-#include "Lib/SerializeBuffer.h"
 
 /**
  * 서버에서 받은 데이터에 대한 컨텐츠 처리를 진행하는 곳.
  */
 
-bool netPacketProc_CreateMyCharacter(CSerializeBuffer* pSerializeBuffer)
+template <typename T>
+inline void ReadFromBuffer(const char* buf, size_t& offset, T& out)
+{
+	std::memcpy(&out, buf + offset, sizeof(T));
+	offset += sizeof(T);
+}
+
+bool netPacketProc_CreateMyCharacter(char* recvBuffer)
 {
 	int outID;
 	char outDir;
 	short outX, outY;
 	char outHP;
-	*pSerializeBuffer >> outID >> outDir >> outX >> outY >> outHP;
+	size_t offset = 0;
+
+	ReadFromBuffer(recvBuffer, offset, outID);
+	ReadFromBuffer(recvBuffer, offset, outDir);
+	ReadFromBuffer(recvBuffer, offset, outX);
+	ReadFromBuffer(recvBuffer, offset, outY);
+	ReadFromBuffer(recvBuffer, offset, outHP);
 
 	CPlayerObject* playerObject = (CPlayerObject*)SINGLETON(CObjectMgr)->CreateObject(eTYPE_PLAYER, outID);
 	if (playerObject == nullptr)
@@ -38,13 +50,19 @@ bool netPacketProc_CreateMyCharacter(CSerializeBuffer* pSerializeBuffer)
 	return true;
 }
 
-bool netPacketProc_CreateOtherCharacter(CSerializeBuffer* pSerializeBuffer)
+bool netPacketProc_CreateOtherCharacter(char* recvBuffer)
 {
 	int outID;
 	char outDir;
 	short outX, outY;
 	char outHP;
-	*pSerializeBuffer >> outID >> outDir >> outX >> outY >> outHP;
+	size_t offset = 0;
+
+	ReadFromBuffer(recvBuffer, offset, outID);
+	ReadFromBuffer(recvBuffer, offset, outDir);
+	ReadFromBuffer(recvBuffer, offset, outX);
+	ReadFromBuffer(recvBuffer, offset, outY);
+	ReadFromBuffer(recvBuffer, offset, outHP);
 
 	CPlayerObject* playerObject = (CPlayerObject*)SINGLETON(CObjectMgr)->CreateObject(eTYPE_PLAYER, outID);
 	if (playerObject == nullptr)
@@ -64,10 +82,12 @@ bool netPacketProc_CreateOtherCharacter(CSerializeBuffer* pSerializeBuffer)
 	return true;
 }
 
-bool netPacketProc_DeleteCharacter(CSerializeBuffer* pSerializeBuffer)
+bool netPacketProc_DeleteCharacter(char* recvBuffer)
 {
 	int outID;
-	*pSerializeBuffer >> outID;
+	size_t offset = 0;
+
+	ReadFromBuffer(recvBuffer, offset, outID);
 
 	if (SINGLETON(CObjectMgr)->EraseByObjectID(outID) == false)
 		return false;
@@ -75,12 +95,17 @@ bool netPacketProc_DeleteCharacter(CSerializeBuffer* pSerializeBuffer)
 	return true;
 }
 
-bool netPacketProc_MoveStart(CSerializeBuffer* pSerializeBuffer)
+bool netPacketProc_MoveStart(char* recvBuffer)
 {
 	int outID;
 	char outDir;
 	short outX, outY;
-	*pSerializeBuffer >> outID >> outDir >> outX >> outY;
+	size_t offset = 0;
+
+	ReadFromBuffer(recvBuffer, offset, outID);
+	ReadFromBuffer(recvBuffer, offset, outDir);
+	ReadFromBuffer(recvBuffer, offset, outX);
+	ReadFromBuffer(recvBuffer, offset, outY);
 
 	CPlayerObject* outPlayer;
 	if (SINGLETON(CObjectMgr)->FindByObjectID(outID, (CBaseObject**)&outPlayer) == false)
@@ -121,12 +146,17 @@ bool netPacketProc_MoveStart(CSerializeBuffer* pSerializeBuffer)
 	return true;
 }
 
-bool netPacketProc_MoveStop(CSerializeBuffer* pSerializeBuffer)
+bool netPacketProc_MoveStop(char* recvBuffer)
 {
 	int outID;
 	char outDir;
 	short outX, outY;
-	*pSerializeBuffer >> outID >> outDir >> outX >> outY;
+	size_t offset = 0;
+
+	ReadFromBuffer(recvBuffer, offset, outID);
+	ReadFromBuffer(recvBuffer, offset, outDir);
+	ReadFromBuffer(recvBuffer, offset, outX);
+	ReadFromBuffer(recvBuffer, offset, outY);
 
 	CPlayerObject* outPlayer;
 	if (SINGLETON(CObjectMgr)->FindByObjectID(outID, (CBaseObject**)&outPlayer) == false)
@@ -145,12 +175,17 @@ bool netPacketProc_MoveStop(CSerializeBuffer* pSerializeBuffer)
 	return true;
 }
 
-bool netPacketProc_Attack1(CSerializeBuffer* pSerializeBuffer)
+bool netPacketProc_Attack1(char* recvBuffer)
 {
 	int outID;
 	char outDir;
 	short outX, outY;
-	*pSerializeBuffer >> outID >> outDir >> outX >> outY;
+	size_t offset = 0;
+
+	ReadFromBuffer(recvBuffer, offset, outID);
+	ReadFromBuffer(recvBuffer, offset, outDir);
+	ReadFromBuffer(recvBuffer, offset, outX);
+	ReadFromBuffer(recvBuffer, offset, outY);
 
 	CPlayerObject* outPlayer;
 	if (SINGLETON(CObjectMgr)->FindByObjectID(outID, (CBaseObject**)&outPlayer) == false)
@@ -170,12 +205,17 @@ bool netPacketProc_Attack1(CSerializeBuffer* pSerializeBuffer)
 	return true;
 }
 
-bool netPacketProc_Attack2(CSerializeBuffer* pSerializeBuffer)
+bool netPacketProc_Attack2(char* recvBuffer)
 {
 	int outID;
 	char outDir;
 	short outX, outY;
-	*pSerializeBuffer >> outID >> outDir >> outX >> outY;
+	size_t offset = 0;
+
+	ReadFromBuffer(recvBuffer, offset, outID);
+	ReadFromBuffer(recvBuffer, offset, outDir);
+	ReadFromBuffer(recvBuffer, offset, outX);
+	ReadFromBuffer(recvBuffer, offset, outY);
 
 	CPlayerObject* outPlayer;
 	if (SINGLETON(CObjectMgr)->FindByObjectID(outID, (CBaseObject**)&outPlayer) == false)
@@ -195,12 +235,17 @@ bool netPacketProc_Attack2(CSerializeBuffer* pSerializeBuffer)
 	return true;
 }
 
-bool netPacketProc_Attack3(CSerializeBuffer* pSerializeBuffer)
+bool netPacketProc_Attack3(char* recvBuffer)
 {
 	int outID;
 	char outDir;
 	short outX, outY;
-	*pSerializeBuffer >> outID >> outDir >> outX >> outY;
+	size_t offset = 0;
+
+	ReadFromBuffer(recvBuffer, offset, outID);
+	ReadFromBuffer(recvBuffer, offset, outDir);
+	ReadFromBuffer(recvBuffer, offset, outX);
+	ReadFromBuffer(recvBuffer, offset, outY);
 
 	CPlayerObject* outPlayer;
 	if (SINGLETON(CObjectMgr)->FindByObjectID(outID, (CBaseObject**)&outPlayer) == false)
@@ -220,12 +265,16 @@ bool netPacketProc_Attack3(CSerializeBuffer* pSerializeBuffer)
 	return true;
 }
 
-bool netPacketProc_Damage(CSerializeBuffer* pSerializeBuffer)
+bool netPacketProc_Damage(char* recvBuffer)
 {
 	int outAttackID;
 	int outDamageID;
 	char outDamageHP;
-	*pSerializeBuffer >> outAttackID >> outDamageID >> outDamageHP;
+	size_t offset = 0;
+
+	ReadFromBuffer(recvBuffer, offset, outAttackID);
+	ReadFromBuffer(recvBuffer, offset, outDamageID);
+	ReadFromBuffer(recvBuffer, offset, outDamageHP);
 
 	AddLog(L"attID: %d, defID: %d, HP: %d\n", outAttackID, outDamageID, outDamageHP);
 
@@ -243,12 +292,15 @@ bool netPacketProc_Damage(CSerializeBuffer* pSerializeBuffer)
 	return true;
 }
 
-bool netPacketProc_Sync(CSerializeBuffer* pSerializeBuffer)
+bool netPacketProc_Sync(char* recvBuffer)
 {
 	int outID;
-	short outX;
-	short outY;
-	*pSerializeBuffer >> outID >> outX >> outY;
+	short outX, outY;
+	size_t offset = 0;
+
+	ReadFromBuffer(recvBuffer, offset, outID);
+	ReadFromBuffer(recvBuffer, offset, outX);
+	ReadFromBuffer(recvBuffer, offset, outY);
 
 	CPlayerObject* player;
 	if (SINGLETON(CObjectMgr)->FindByObjectID(outID, (CBaseObject**)&player) == false)
@@ -260,10 +312,12 @@ bool netPacketProc_Sync(CSerializeBuffer* pSerializeBuffer)
 	return true;
 }
 
-bool netPacketProc_Echo(CSerializeBuffer* pSerializeBuffer)
+bool netPacketProc_Echo(char* recvBuffer)
 {
 	int outEcho;
-	*pSerializeBuffer >> outEcho;
+	size_t offset = 0;
+
+	ReadFromBuffer(recvBuffer, offset, outEcho);
 
 	unsigned int millisec = GetTickCount();
 	AddLog(L"Round Trip Time : %u ms\n", millisec - outEcho);

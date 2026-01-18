@@ -2,7 +2,6 @@
 #include "Resource.h"
 #include "GameMgr.h"
 #include "Lib/FPSTimer.h"
-#include "Lib/SerializeBuffer.h"
 #include "NetworkMgr.h"
 #include "RenderMgr.h"
 #include "ResourceMgr.h"

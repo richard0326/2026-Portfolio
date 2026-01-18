@@ -1,7 +1,6 @@
 #pragma once
 
 class CSocket;
-class CSerializeBuffer;
 class CNetworkMgr
 {
 private:
@@ -22,7 +21,7 @@ public:
 	bool SendEvent();
 	void CloseEvent();
 
-	void PacketProc(int packetType, CSerializeBuffer* pSerializeBuffer);
+	void PacketProc(int packetType, char* buf);
 	bool SendPacket(char* pPacket, int iPacketSize);
 
 private:
