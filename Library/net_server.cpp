@@ -241,7 +241,7 @@ unsigned __stdcall NetServer::netAcceptThread(void* pParameter)
             continue;
         }
 
-        pThis->OnClientJoin(pSession->SessionID, pSession->ObjectPtr);
+        pThis->OnClientJoin(pSession->SessionID);
 
         ErrorCode error = pThis->netWSARecvPost(pSession);
         if (error != RET_SUCCESS)
@@ -304,7 +304,7 @@ unsigned __stdcall NetServer::netIOThread(void* pParameter)
                     pThis->DisconnectSession(pSession);
                 }
 
-                pThis->OnSend(pSession->SessionID, pSession->ObjectPtr, pSession->ReleasePacket);
+                pThis->OnSend(pSession->SessionID, pSession->ReleasePacket);
             }
         }
 
@@ -322,7 +322,6 @@ ErrorCode NetServer::netWSARecvPacket(Session* pSession)
         int UsedSize = pSession->RecvQ->GetUseSize();
         if (UsedSize < headerSize)
         {
-            cout << "Has No Header" << endl;
             break;
         }
 
@@ -345,7 +344,7 @@ ErrorCode NetServer::netWSARecvPacket(Session* pSession)
             return RET_SOCKET_ERROR;
         }
 
-        std::shared_ptr<byte[]> byteArr(new byte[headerSize + payloadSize]);
+        std::shared_ptr<byte[]> byteArr(new byte[payloadSize + headerSize]);
         memcpy(byteArr.get(), &payloadSize, headerSize);
         int deqSize = pSession->RecvQ->Dequeue(((char*)byteArr.get()) + headerSize, payloadSize);
         if (deqSize != payloadSize)
@@ -354,7 +353,7 @@ ErrorCode NetServer::netWSARecvPacket(Session* pSession)
             return RET_SOCKET_ERROR;
         }
         
-        ErrorCode retOnRecv = (ErrorCode)OnRecv(pSession->SessionID, pSession->ObjectPtr, byteArr);
+        ErrorCode retOnRecv = (ErrorCode)OnRecv(pSession->SessionID, byteArr);
         if (retOnRecv != RET_SUCCESS)
         {
             cout << "OnRecv error" << endl;
@@ -574,7 +573,7 @@ void NetServer::DecreaseIOCount(Session* pSession)
         if (InterlockedCompareExchange((LONG*)&pSession->ReleaseFlag, true, false) == false)
         {
             closesocket(pSession->Socket);
-            OnClientLeave(pSession->SessionID, pSession->ObjectPtr, pSession->ReleasePacket);
+            OnClientLeave(pSession->SessionID, pSession->ReleasePacket);
             if (m_indexStack->Push(pSession->SessionID) == false)
             {
                 cout << "stack push fail : " << pSession->SessionID << endl;
@@ -608,24 +607,4 @@ bool NetServer::SendPacket(int sessionID, byte* byteArr)
         return false;
     }
     return true;
-}
-
-bool NetServer::SetObject(int sessionID, void* pObject)
-{
-    Session* pSession = m_sessionVec[sessionID];
-    if (pSession == nullptr || pSession->ReleaseFlag) {
-        return false;
-    }
-    pSession->ObjectPtr = pObject;
-    return true;
-}
-
-void* NetServer::GetObjectPtr(int sessionID)
-{
-    Session* pSession = m_sessionVec[sessionID];
-    if (pSession == nullptr || pSession->ReleaseFlag) {
-        return nullptr;
-    }
-
-    return pSession->ObjectPtr;
 }

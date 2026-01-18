@@ -2,8 +2,15 @@
 
 template <typename T>
 class LockFreeQueue;
+class FPSTimer;
 class MmorpgServer : public NetServer
 {
+	struct Job
+	{
+		int sessionID;
+		std::shared_ptr<byte[]> byteArr;
+	};
+
 public:
 	MmorpgServer();
 	~MmorpgServer();
@@ -15,12 +22,19 @@ public:
 	// accept 직후
 	virtual bool OnConnectionRequest(const wchar_t* ipWstr, int portNum);
 	// Accept 후 접속처리 완료 후 호출.
-	virtual void OnClientJoin(int sessionID, void* pObject);
+	virtual void OnClientJoin(int sessionID);
 	// Release 후 호출
-	virtual void OnClientLeave(int sessionID, void* pObject, LockFreeQueue<byte*>* releasePacket);
+	virtual void OnClientLeave(int sessionID, LockFreeQueue<byte*>* releasePacket);
 	// 패킷 수신 완료 후
-	virtual int OnRecv(int sessionID, void* pObject, std::shared_ptr<byte[]> byteArr);
+	virtual int OnRecv(int sessionID, std::shared_ptr<byte[]> byteArr);
 	// 패킷 송신 완료 후
-	virtual int OnSend(int sessionID, void* pObject, LockFreeQueue<byte*>* releasePacket);
-	virtual void OnError(const wchar_t* ipWstr, int portNum, int sessionID, void* pObject, int errorCode, const wchar_t* errorMsg);
+	virtual int OnSend(int sessionID, LockFreeQueue<byte*>* releasePacket);
+	virtual void OnError(const wchar_t* ipWstr, int portNum, int sessionID, int errorCode, const wchar_t* errorMsg);
+
+private:
+	static DWORD __stdcall LogicThread(void* pParameter);
+
+	HANDLE m_hLogicLoop;
+	LockFreeQueue<Job*>* m_logicJobQueue;
+	FPSTimer* m_fpsTimer;
 };

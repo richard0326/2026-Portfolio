@@ -1,13 +1,10 @@
 #pragma once
 
-class Player
+struct Player
 {
-public:
-	Player();
-	~Player();
-
-	void SetSessionID(int sessionID);
-	int GetSessionID();
-private:
 	int m_sessionID;
+	char m_dir;
+	short m_x;
+	short m_y;
+	char m_hp;
 };

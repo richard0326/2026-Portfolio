@@ -131,19 +131,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Library\fps_timer.cpp" />
     <ClCompile Include="..\..\Library\net_server.cpp" />
     <ClCompile Include="..\..\Library\ring_buffer.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="message_packing.cpp" />
     <ClCompile Include="mmorpg_server.cpp" />
     <ClCompile Include="packet_proc.cpp" />
-    <ClCompile Include="player.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Library\error.h" />
+    <ClInclude Include="..\..\Library\fps_timer.h" />
     <ClInclude Include="..\..\Library\lock_free_queue.h" />
     <ClInclude Include="..\..\Library\lock_free_stack.h" />
     <ClInclude Include="..\..\Library\net_server.h" />

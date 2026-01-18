@@ -36,9 +36,6 @@
     <ClCompile Include="..\..\Library\ring_buffer.cpp">
       <Filter>Library</Filter>
     </ClCompile>
-    <ClCompile Include="player.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="mmorpg_server.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -47,6 +44,9 @@
     </ClCompile>
     <ClCompile Include="packet_proc.cpp">
       <Filter>Global</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Library\fps_timer.cpp">
+      <Filter>Library</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -88,6 +88,9 @@
     </ClInclude>
     <ClInclude Include="packet_proc.h">
       <Filter>Global</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\fps_timer.h">
+      <Filter>Library</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -24,16 +24,16 @@ protected:
 	virtual bool OnConnectionRequest(const wchar_t* ipWstr, int portNum) = 0;
 
 	// Accept 후 접속처리 완료 후 호출.
-	virtual void OnClientJoin(int sessionID, void* pObject) = 0;
+	virtual void OnClientJoin(int sessionID) = 0;
 	// Release 후 호출
-	virtual void OnClientLeave(int sessionID, void* pObject, LockFreeQueue<byte*>* releasePacket) = 0;
+	virtual void OnClientLeave(int sessionID, LockFreeQueue<byte*>* releasePacket) = 0;
 
 	// 패킷 수신 완료 후
-	virtual int OnRecv(int sessionID, void* pObject, std::shared_ptr<byte[]> byteArr) = 0;
+	virtual int OnRecv(int sessionID, std::shared_ptr<byte[]> byteArr) = 0;
 	// 패킷 송신 완료 후
-	virtual int OnSend(int sessionID, void* pObject, LockFreeQueue<byte*>* releasePacket) = 0;
+	virtual int OnSend(int sessionID, LockFreeQueue<byte*>* releasePacket) = 0;
 
-	virtual void OnError(const wchar_t* ipWstr, int portNum, int sessionID, void* pObject, int errorCode, const wchar_t* errorMsg) = 0;
+	virtual void OnError(const wchar_t* ipWstr, int portNum, int sessionID, int errorCode, const wchar_t* errorMsg) = 0;
 
 private:
 	static unsigned __stdcall monitoringThread(void* pParameter);
@@ -56,8 +56,6 @@ private:
 public:
 	// 외부 호출 함수
 	bool SendPacket(int sessionID, byte* byteArr);
-	bool SetObject(int sessionID, void* pObject);
-	void* GetObjectPtr(int sessionID);
 
 private:
 	SOCKET		m_listenSocket;
